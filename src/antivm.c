@@ -4,10 +4,7 @@
 
 #include "antivm.h"
 
-AntiVM::AntiVM() {
-}
-
-void AntiVM::cpuid_exc_31_bit() {
+void cpuid_exc_31_bit() {
     printf("cpuid_exec_31_bit: ");
 
     int ecx;
@@ -25,7 +22,7 @@ void AntiVM::cpuid_exc_31_bit() {
     }
 }
 
-void AntiVM::cpuid_hypervisor_brand() {
+void cpuid_hypervisor_brand() {
     printf("cpuid_hypervisor_brand: ");
 
     unsigned int ebx, ecx, edx;
@@ -65,27 +62,31 @@ void AntiVM::cpuid_hypervisor_brand() {
     }
 }
 
-void AntiVM::check_characteristic() {
+void check_characteristic() {
     puts("-----------------vmware-----------------");
-    vmware.check_vmware_characteristic();
+    check_vmware_characteristic();
     puts("------------------vbox------------------");
-    vbox.check_vbox_characteristic();
+    check_vbox_characteristic();
 }
 
-void AntiVM::set_characteristic(int choice) {
+void set_characteristic(int choice) {
     if (choice == 0)
-        vmware.set_vmware_characteristic();
+        set_vmware_characteristic();
     else if (choice == 1)
-        vbox.set_vbox_characteristic();
+        set_vbox_characteristic();
+    else if (choice == 2) {
+        set_vbox_characteristic();
+        set_vmware_characteristic();
+    }
 }
 
-void AntiVM::check_registry_key() {
+void check_registry_key() {
     unsigned char byBuffer[1024];
-    reg.create_registry_value(HKEY_CURRENT_USER, "SOFTWARE\\test", "test_subkey", "test_name", "test_value");
-    reg.open_registry_key(HKEY_CURRENT_USER, "SOFTWARE\\test\\test_subkey");
-    reg.create_registry_key(HKEY_CURRENT_USER, "SOFTWARE\\test", "test_subkey\\ttttttt");
-    reg.read_registry_value(HKEY_CURRENT_USER, "SOFTWARE\\test\\test_subkey", "test_name", byBuffer);
-    reg.delete_registry_value(HKEY_CURRENT_USER, "SOFTWARE\\test\\test_subkey", "test_name");
-    reg.delete_registry_key(HKEY_CURRENT_USER, "SOFTWARE\\test", "test_subkey");
-    reg.read_registry_value(HKEY_CURRENT_USER, "SOFTWARE\\test\\test_subkey", "test_name", byBuffer);
+    create_registry_value(HKEY_CURRENT_USER, "SOFTWARE\\test", "test_subkey", "test_name", "test_value");
+    open_registry_key(HKEY_CURRENT_USER, "SOFTWARE\\test\\test_subkey");
+    create_registry_key(HKEY_CURRENT_USER, "SOFTWARE\\test", "test_subkey\\ttttttt");
+    read_registry_value(HKEY_CURRENT_USER, "SOFTWARE\\test\\test_subkey", "test_name", byBuffer);
+    delete_registry_value(HKEY_CURRENT_USER, "SOFTWARE\\test\\test_subkey", "test_name");
+    delete_registry_key(HKEY_CURRENT_USER, "SOFTWARE\\test", "test_subkey");
+    read_registry_value(HKEY_CURRENT_USER, "SOFTWARE\\test\\test_subkey", "test_name", byBuffer);
 }

@@ -1,18 +1,15 @@
 #ifndef VMWARE_H
 #define VMWARE_H
 
+#define TEMP_STRING_SIZE 150
+
 #include "reg.h"
 #include "message.h"
 
-class Vmware {
-    private:
-        Reg reg;
-        Message message;
-    public:
-        Vmware();
-        //~Vmware();
-        void check_vmware_characteristic();
-        void set_vmware_characteristic();
-};
+
+void check_vmware_characteristic();
+void set_vmware_characteristic();
+void create_vmware_process();
+void copy_vmware_process_file(char const*, char const*);
 
 #endif

@@ -3,17 +3,10 @@
 
 #include <windows.h>
 
-
-class Message {
-    private:
-        char* buffer;
-        HANDLE _hstdout;
-    public:
-        Message();
-        //~Message();
-        void success_message(char const*);
-        void fail_message(char const*);
-        char* convert_DWORD_to_Char(DWORD);
-};
+void success_message(char const*);
+void fail_message(char const*);
+void success_message_block(char const*);
+void fail_message_block(char const*);
+char* convert_DWORD_to_Char(DWORD);
 
 #endif

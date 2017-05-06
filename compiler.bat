@@ -2,4 +2,4 @@
 echo compiler start
 
 mingw32-make clean
-mingw32-make && main.exe
+mingw32-make

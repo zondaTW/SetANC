@@ -5,11 +5,9 @@
 #include "reg.h"
 #include "types.h"
 
-Reg::Reg() {
-    isWow64();
-}
+int KEY_WOW64_64KEY;
 
-void Reg::isWow64() {  
+void isWow64() {  
     typedef BOOL(WINAPI *ISWOW64PROCESS)(HANDLE, PBOOL);  
     ISWOW64PROCESS fnIsWow64Process;  
     BOOL bIsWow64 = FALSE;  
@@ -19,9 +17,10 @@ void Reg::isWow64() {
     KEY_WOW64_64KEY = 0x0;  
 }  
 
-int Reg::open_registry_key(HKEY hKey, char const * regkey_s) {
-    puts("open registry key: ");
+int open_registry_key(HKEY hKey, char const * regkey_s) {
+    //puts("open registry key: ");
 
+    isWow64();
     HKEY regkey;
     DWORD result;
 
@@ -34,20 +33,21 @@ int Reg::open_registry_key(HKEY hKey, char const * regkey_s) {
     );            
 
     if (result == ERROR_SUCCESS) {
-        message.success_message("open success");
+        //success_message("open success");
     }
     else {
-        printf("open failed, id: ");
-        message.fail_message(message.convert_DWORD_to_Char(result));
+        //printf("open failed, id: ");
+        //fail_message(convert_DWORD_to_Char(result));
         return FALSE;
     }
     RegCloseKey(regkey);
     return TRUE;
 }
 
-int Reg::read_registry_value(HKEY hKey, char const * regkey_s, char const * name_s, unsigned char byBuffer[]) {
-    puts("read registry value: ");
+int read_registry_value(HKEY hKey, char const * regkey_s, char const * name_s, unsigned char byBuffer[]) {
+    //puts("read registry value: ");
 
+    isWow64();
     HKEY regkey;
     DWORD result;
 
@@ -60,11 +60,11 @@ int Reg::read_registry_value(HKEY hKey, char const * regkey_s, char const * name
     );            
 
     if (result == ERROR_SUCCESS) {
-        message.success_message("open success");
+        //success_message("open success");
     }
     else {
-        printf("open failed, id: ");
-        message.fail_message(message.convert_DWORD_to_Char(result));
+        //printf("open failed, id: ");
+        //fail_message(convert_DWORD_to_Char(result));
         RegCloseKey(regkey);
         return FALSE;
     }
@@ -82,13 +82,13 @@ int Reg::read_registry_value(HKEY hKey, char const * regkey_s, char const * name
     );
     if(result == ERROR_SUCCESS)
     {
-        printf("Key value is: ");
-        message.success_message((char *)byBuffer);
+        //printf("Key value is: ");
+        //success_message((char *)byBuffer);
     }
     else
     {
-        printf("Cannot query for key value; Error is: ");
-        message.fail_message(message.convert_DWORD_to_Char(result));
+        //printf("Cannot query for key value; Error is: ");
+        //fail_message(convert_DWORD_to_Char(result));
         RegCloseKey(regkey);
         return FALSE;
     }
@@ -96,9 +96,10 @@ int Reg::read_registry_value(HKEY hKey, char const * regkey_s, char const * name
     return TRUE;
 }
 
-int Reg::create_registry_key(HKEY hKey, char const * regkey_s, char const * lpsubkey_s) {
-    puts("create registry key: ");
+int create_registry_key(HKEY hKey, char const * regkey_s, char const * lpsubkey_s) {
+    //puts("create registry key: ");
 
+    isWow64();
     HKEY regkey;
     HKEY subKey;
     DWORD result;
@@ -112,11 +113,11 @@ int Reg::create_registry_key(HKEY hKey, char const * regkey_s, char const * lpsu
     );            
 
     if (result == ERROR_SUCCESS) {
-        message.success_message("open success");
+        //success_message("open success");
     }
     else {
-        printf("open failed, id: ");
-        message.fail_message(message.convert_DWORD_to_Char(result));
+        //printf("open failed, id: ");
+        //fail_message(convert_DWORD_to_Char(result));
         RegCloseKey(regkey);
         return FALSE;
     }
@@ -124,12 +125,12 @@ int Reg::create_registry_key(HKEY hKey, char const * regkey_s, char const * lpsu
     result = RegCreateKey(regkey, TEXT(lpsubkey_s), &subKey);
     if (result == ERROR_SUCCESS)
     {
-        message.success_message("create success");
+        //success_message("create success");
     }
     else
     {
-        printf("create failed, id: ");
-        message.fail_message(message.convert_DWORD_to_Char(result));
+        //printf("create failed, id: ");
+        //fail_message(convert_DWORD_to_Char(result));
         RegCloseKey(subKey);
         RegCloseKey(regkey);
         return FALSE;
@@ -139,9 +140,10 @@ int Reg::create_registry_key(HKEY hKey, char const * regkey_s, char const * lpsu
     return TRUE;
 }
 
-int Reg::create_registry_value(HKEY hKey, char const * regkey_s, char const * lpsubkey_s, char const * name_s, char const * value_s) {
-    puts("create registry value: ");
+int create_registry_value(HKEY hKey, char const * regkey_s, char const * lpsubkey_s, char const * name_s, char const * value_s) {
+    //puts("create registry value: ");
 
+    isWow64();
     HKEY regkey;
     HKEY subKey;
     DWORD result;
@@ -155,11 +157,11 @@ int Reg::create_registry_value(HKEY hKey, char const * regkey_s, char const * lp
     );            
 
     if (result == ERROR_SUCCESS) {
-        message.success_message("open success");
+        //success_message("open success");
     }
     else {
-        printf("open failed, id: ");
-        message.fail_message(message.convert_DWORD_to_Char(result));
+        //printf("open failed, id: ");
+        //fail_message(convert_DWORD_to_Char(result));
         RegCloseKey(regkey);
         return FALSE;
     }
@@ -167,12 +169,12 @@ int Reg::create_registry_value(HKEY hKey, char const * regkey_s, char const * lp
     result = RegCreateKey(regkey, TEXT(lpsubkey_s), &subKey);
     if (result == ERROR_SUCCESS)
     {
-        message.success_message("create success");
+        //success_message("create success");
     }
     else
     {
-        printf("create failed, id: ");
-        message.fail_message(message.convert_DWORD_to_Char(result));
+        //printf("create failed, id: ");
+        //fail_message(convert_DWORD_to_Char(result));
         RegCloseKey(subKey);
         RegCloseKey(regkey);
         return FALSE;
@@ -189,12 +191,12 @@ int Reg::create_registry_value(HKEY hKey, char const * regkey_s, char const * lp
  
     if (result == ERROR_SUCCESS)
     {
-        message.success_message("set success");
+        //success_message("set success");
     }
     else
     {
-        printf("set failed, id: ");
-        message.fail_message(message.convert_DWORD_to_Char(result));
+        //printf("set failed, id: ");
+        //fail_message(convert_DWORD_to_Char(result));
         RegCloseKey(subKey);
         RegCloseKey(regkey);
         return FALSE;
@@ -204,9 +206,10 @@ int Reg::create_registry_value(HKEY hKey, char const * regkey_s, char const * lp
     return TRUE;
 }
 
-int Reg::delete_registry_value(HKEY hKey, char const * regkey_s, char const * name_s) {
-    puts("delete registry value: ");
+int delete_registry_value(HKEY hKey, char const * regkey_s, char const * name_s) {
+    //puts("delete registry value: ");
 
+    isWow64();
     HKEY regkey;
     DWORD result;
 
@@ -219,11 +222,11 @@ int Reg::delete_registry_value(HKEY hKey, char const * regkey_s, char const * na
     );            
 
     if (result == ERROR_SUCCESS) {
-        message.success_message("open success");
+        //success_message("open success");
     }
     else {
-        printf("open failed, id: ");
-        message.fail_message(message.convert_DWORD_to_Char(result));
+        //printf("open failed, id: ");
+        //fail_message(convert_DWORD_to_Char(result));
         RegCloseKey(regkey);
         return FALSE;
     }
@@ -233,12 +236,12 @@ int Reg::delete_registry_value(HKEY hKey, char const * regkey_s, char const * na
  
     if (result == ERROR_SUCCESS)
     {
-        message.success_message("delete success");
+        //success_message("delete success");
     }
     else
     {
-        printf("delete failed, id: ");
-        message.fail_message(message.convert_DWORD_to_Char(result));
+        //printf("delete failed, id: ");
+        //fail_message(convert_DWORD_to_Char(result));
         RegCloseKey(regkey);
         return FALSE;
     }
@@ -246,9 +249,10 @@ int Reg::delete_registry_value(HKEY hKey, char const * regkey_s, char const * na
     return TRUE;
 }
 
-int Reg::delete_registry_key(HKEY hKey, char const * regkey_s, char const * subkey_s) {
-    puts("delete registry key: ");
+int delete_registry_key(HKEY hKey, char const * regkey_s, char const * subkey_s) {
+    //puts("delete registry key: ");
 
+    isWow64();
     HKEY regkey;
     DWORD result;
 
@@ -261,11 +265,11 @@ int Reg::delete_registry_key(HKEY hKey, char const * regkey_s, char const * subk
     );            
 
     if (result == ERROR_SUCCESS) {
-        message.success_message("open success");
+        //success_message("open success");
     }
     else {
-        printf("open failed, id: ");
-        message.fail_message(message.convert_DWORD_to_Char(result));
+        //printf("open failed, id: ");
+        //fail_message(convert_DWORD_to_Char(result));
         RegCloseKey(regkey);
         return FALSE;
     }
@@ -275,12 +279,12 @@ int Reg::delete_registry_key(HKEY hKey, char const * regkey_s, char const * subk
  
     if (result == ERROR_SUCCESS)
     {
-        message.success_message("delete success");
+        //success_message("delete success");
     }
     else
     {
-        printf("delete failed, id: ");
-        message.fail_message(message.convert_DWORD_to_Char(result));
+        //printf("delete failed, id: ");
+        //fail_message(convert_DWORD_to_Char(result));
         RegCloseKey(regkey);
         return FALSE;
     }
