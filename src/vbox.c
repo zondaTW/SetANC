@@ -186,10 +186,12 @@ void set_vbox_characteristic() {
     }
 }
 
-void create_vbox_process() {
+void create_vbox_process(char* path) {
     int rows = sizeof(vbox_process_list) / sizeof(vbox_process_list[0]);
+    char temp[TEMP_STRING_SIZE];
     for (int i = 0; i < rows; i++) {
-        create_process((char*)vbox_process_list[i]);
+        sprintf(temp, "%s\\%s", path, (char*)vbox_process_list[i]);
+        create_process(temp);
     }
 }
 

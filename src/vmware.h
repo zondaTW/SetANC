@@ -9,7 +9,7 @@
 
 void check_vmware_characteristic();
 void set_vmware_characteristic();
-void create_vmware_process();
+void create_vmware_process(char*);
 void copy_vmware_process_file(char const*, char const*);
 
 #endif

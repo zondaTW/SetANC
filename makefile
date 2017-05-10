@@ -1,12 +1,14 @@
 CC = g++
+WI = windres
 CFLAGS = -g -Wall -m32 -static-libgcc -static-libstdc++
 NONE_WINDOWS_CFLAGS = -g -Wall -m32 -static-libgcc -static-libstdc++ -mwindows
 objs_c := src\message.o src\reg.o src\vmware.o src\vbox.o src\antivm.o src\process.o src\file.o
 exe_forever_obj_c := src\execute_forever.o
 objs_cpp := src\SetAnc_main.o
 boot_objs_cpp := src\SetANC_boot.o
-objs := $(objs_c) $(objs_cpp)
-boot_objs := $(objs_c) $(boot_objs_cpp) 
+manifest_rc := src\SetANC.o
+objs := $(objs_c) $(objs_cpp) $(manifest_rc)
+boot_objs := $(objs_c) $(boot_objs_cpp)
 exe_forever_objs := $(exe_forever_obj_c)
 bin := SetANC.exe
 boot_bin := SetANC_boot.exe
@@ -35,6 +37,9 @@ $(exe_forever_obj_c): %.o: %.c
 $(objs_cpp): %.o: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(manifest_rc): %.o: %.rc
+	$(WI) $< -o $@
+
 .PHONY: clean
 clean:
 	del /Q $(objs)
@@ -43,4 +48,5 @@ clean:
 	del /Q $(boot_bin)
 	del /Q $(exe_forever_objs)
 	del /Q $(exe_forever_bin)
+	del /Q $(manifest_rc)
 

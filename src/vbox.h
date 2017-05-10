@@ -9,6 +9,6 @@
 
 void check_vbox_characteristic();
 void set_vbox_characteristic();
-void create_vbox_process();
+void create_vbox_process(char*);
 void copy_vbox_process_file(char const*, char const*);
 #endif

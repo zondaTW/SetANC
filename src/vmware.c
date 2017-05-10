@@ -174,11 +174,12 @@ void set_vmware_characteristic() {
     }
 }
 
-void create_vmware_process() {
+void create_vmware_process(char* path) {
     int rows = sizeof(vmware_process_list) / sizeof(vmware_process_list[0]);
+    char temp[TEMP_STRING_SIZE];
     for (int i = 0; i < rows; i++) {
-        printf("%s", (char*)vmware_process_list[i]);
-        create_process((char*)vmware_process_list[i]);
+        sprintf(temp, "%s\\%s", path, (char*)vmware_process_list[i]);
+        create_process(temp);
     }
 }
 
